@@ -1,8 +1,7 @@
 target/
-  dependency-reduced-pom.xml
-  *.class
-  *.jar
-  !pom.xml
-  .DS_Store
-  *.iml
-  .idea/
+dependency-reduced-pom.xml
+*.class
+*.jar
+.DS_Store
+*.iml
+.idea/
