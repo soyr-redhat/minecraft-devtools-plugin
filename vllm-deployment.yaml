@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm
+  labels:
+    app: vllm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vllm
+  template:
+    metadata:
+      labels:
+        app: vllm
+    spec:
+      containers:
+      - name: vllm
+        image: vllm/vllm-openai:latest
+        args:
+          - --model
+          - meta-llama/Llama-3-8b-chat-hf  # Change this to your preferred model
+          - --host
+          - 0.0.0.0
+          - --port
+          - "8000"
+          # Uncomment for GPU support
+          # - --tensor-parallel-size
+          # - "1"
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: HF_HOME
+          value: /data/huggingface
+        # Optional: Add Hugging Face token for gated models
+        # - name: HF_TOKEN
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: huggingface-token
+        #       key: token
+        resources:
+          requests:
+            memory: "8Gi"
+            cpu: "4"
+          limits:
+            memory: "16Gi"
+            cpu: "8"
+          # Uncomment for GPU
+          # requests:
+          #   nvidia.com/gpu: 1
+          # limits:
+          #   nvidia.com/gpu: 1
+        volumeMounts:
+        - name: model-cache
+          mountPath: /data/huggingface
+      volumes:
+      - name: model-cache
+        emptyDir: {}
+        # Or use PVC for persistent model cache:
+        # persistentVolumeClaim:
+        #   claimName: vllm-model-cache
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vllm-service
+  labels:
+    app: vllm
+spec:
+  type: ClusterIP
+  selector:
+    app: vllm
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+    name: http
+---
+# Optional: Create PVC for model cache
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: vllm-model-cache
+# spec:
+#   accessModes:
+#   - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 50Gi

@@ -1,0 +1,60 @@
+name: DevCommandsPlugin
+version: 1.0.0
+main: com.minecraft.devcommands.DevCommandsPlugin
+api-version: 1.20
+author: YourName
+description: GitHub PR reviews and AI assistance in Minecraft
+
+commands:
+  git:
+    description: GitHub repository management and operations
+    usage: |
+      /git <owner/repo> - Set repository
+      /git repo - Show current repository
+      /git pr-list - List pull requests
+      /git pr-review <latest|#> - Review a PR
+      /git kanban-list - List projects
+      /git kanban-view <#> - View project board
+    permission: devcommands.git
+  ai-chat:
+    description: Chat with the AI
+    usage: /ai-chat <message>
+    permission: devcommands.ai
+  code-explain:
+    description: Ask AI to explain code from a file
+    usage: /code-explain <file path>
+    permission: devcommands.explain
+  jira-create:
+    description: Create a new Jira issue
+    usage: /jira-create <type> <summary> [| description]
+    permission: devcommands.jira
+  jira-view:
+    description: View a Jira issue
+    usage: /jira-view <issue-key>
+    permission: devcommands.jira
+  jira-list:
+    description: List Jira issues
+    usage: /jira-list [mine|bugs|all]
+    permission: devcommands.jira
+
+permissions:
+  devcommands.*:
+    description: Gives access to all dev commands
+    default: op
+    children:
+      devcommands.git: true
+      devcommands.ai: true
+      devcommands.explain: true
+      devcommands.jira: true
+  devcommands.git:
+    description: Allows all Git/GitHub commands (PRs, kanban, repo management)
+    default: op
+  devcommands.ai:
+    description: Allows AI chat
+    default: op
+  devcommands.explain:
+    description: Allows code explanation
+    default: op
+  devcommands.jira:
+    description: Allows Jira commands
+    default: op

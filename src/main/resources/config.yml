@@ -1,0 +1,67 @@
+# GitHub Configuration
+github:
+  # GitHub personal access token (or use environment variable GITHUB_TOKEN)
+  token: "${GITHUB_TOKEN}"
+  # Repository in format "owner/repo"
+  repository: "cedricclyburn/minecraft-for-standup"
+  # API base URL (use for GitHub Enterprise)
+  api-url: "https://api.github.com"
+  # Default project number for kanban board (optional)
+  project-number: 1
+
+# Jira Configuration
+jira:
+  # Jira instance URL (e.g., https://yourcompany.atlassian.net)
+  url: "${JIRA_URL}"
+  # Jira email address
+  email: "${JIRA_EMAIL}"
+  # Jira API token (generate at https://id.atlassian.com/manage-profile/security/api-tokens)
+  api-token: "${JIRA_API_TOKEN}"
+  # Default project key (e.g., "PROJ")
+  project-key: "PROJ"
+
+# vLLM Configuration
+vllm:
+  # vLLM service URL (internal OpenShift service or external URL)
+  url: "http://vllm-service:8000"
+  # Model name configured in vLLM
+  model: "meta-llama/Llama-3-8b-chat-hf"
+  # Maximum tokens for completion
+  max-tokens: 2048
+  # Temperature for generation (0.0-2.0)
+  temperature: 0.7
+  # Request timeout in seconds
+  timeout: 30
+
+# Plugin Settings
+settings:
+  # Enable debug logging
+  debug: false
+  # Maximum book pages (Minecraft limit is 100)
+  max-book-pages: 50
+  # Cache PR data for this many seconds
+  cache-duration: 300
+  # Maximum concurrent API requests
+  max-concurrent-requests: 3
+  # Per-player cooldown in seconds
+  command-cooldown: 5
+
+# AI Prompts (customize these!)
+prompts:
+  pr-review: |
+    You are a code reviewer. Analyze this pull request and provide:
+    1. Summary of changes
+    2. Potential issues or bugs
+    3. Security concerns
+    4. Code quality feedback
+
+    Keep your response concise and formatted for reading in Minecraft.
+
+    Pull Request:
+    {pr_data}
+
+  code-explain: |
+    Explain this code in simple terms. What does it do and how does it work?
+
+    Code:
+    {code}
