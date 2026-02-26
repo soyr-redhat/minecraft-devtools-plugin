@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: texture-pack-server
+  namespace: minecraft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: texture-pack-server
+  template:
+    metadata:
+      labels:
+        app: texture-pack-server
+    spec:
+      containers:
+      - name: http-server
+        image: python:3.11-alpine
+        command: ["python3", "-m", "http.server", "8080"]
+        workingDir: /data
+        ports:
+        - containerPort: 8080
+          name: http
+        volumeMounts:
+        - name: texture-pack
+          mountPath: /data
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+      volumes:
+      - name: texture-pack
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: texture-pack-service
+  namespace: minecraft
+spec:
+  selector:
+    app: texture-pack-server
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: ClusterIP
