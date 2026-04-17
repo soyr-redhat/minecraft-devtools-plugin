@@ -104,75 +104,23 @@ github:
   project-number: 1  # Your default project board number
 ```
 
-#### vLLM Configuration
+#### AI/MaaS Configuration
+
+Configure the AI endpoint (MaaS or self-hosted vLLM):
 
 ```yaml
 vllm:
-  url: "http://vllm-service:8000"  # Your vLLM service URL
-  model: "meta-llama/Llama-3-8b-chat-hf"
+  url: "http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5"  # MaaS endpoint (no /v1 suffix)
+  model: "kimi-k2-5"  # Model name
+  api-token: "${MAAS_TOKEN}"  # Bearer token from environment variable
   max-tokens: 2048
   temperature: 0.7
-  timeout: 30
+  timeout: 60  # Kimi k2.5 can handle longer requests
 ```
 
-### 4. Deploy vLLM in OpenShift
+**Note:** The client automatically appends `/v1/chat/completions` to the URL.
 
-Create a vLLM deployment in your OpenShift namespace:
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: vllm
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: vllm
-  template:
-    metadata:
-      labels:
-        app: vllm
-    spec:
-      containers:
-      - name: vllm
-        image: vllm/vllm-openai:latest
-        args:
-          - --model
-          - meta-llama/Llama-3-8b-chat-hf
-          - --host
-          - 0.0.0.0
-          - --port
-          - "8000"
-        ports:
-        - containerPort: 8000
-        resources:
-          requests:
-            memory: "8Gi"
-            cpu: "4"
-          limits:
-            memory: "16Gi"
-            cpu: "8"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: vllm-service
-spec:
-  selector:
-    app: vllm
-  ports:
-  - protocol: TCP
-    port: 8000
-    targetPort: 8000
-```
-
-Apply with:
-```bash
-oc apply -f vllm-deployment.yaml
-```
-
-### 5. Set Environment Variables (Recommended)
+### 4. Set Environment Variables (Recommended)
 
 In your Minecraft server startup script or OpenShift deployment:
 
