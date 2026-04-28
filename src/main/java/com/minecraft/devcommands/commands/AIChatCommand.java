@@ -125,9 +125,17 @@ public class AIChatCommand implements CommandExecutor, TabCompleter {
                         JsonObject toolCall = toolCalls.get(i).getAsJsonObject();
                         JsonObject function = toolCall.getAsJsonObject("function");
                         String toolName = function.get("name").getAsString();
-                        JsonObject arguments = plugin.getConfig().getBoolean("settings.debug", false)
-                            ? new com.google.gson.Gson().fromJson(function.get("arguments").getAsString(), JsonObject.class)
-                            : new com.google.gson.Gson().fromJson(function.get("arguments"), JsonObject.class);
+
+                        // Parse arguments - handle both string and object formats
+                        JsonObject arguments;
+                        com.google.gson.JsonElement argsElement = function.get("arguments");
+                        if (argsElement.isJsonPrimitive()) {
+                            // Arguments is a JSON string, parse it
+                            arguments = new com.google.gson.Gson().fromJson(argsElement.getAsString(), JsonObject.class);
+                        } else {
+                            // Arguments is already a JsonObject
+                            arguments = argsElement.getAsJsonObject();
+                        }
 
                         // Show which tool is being used
                         final String displayName = toolName.replace("_", " ");
