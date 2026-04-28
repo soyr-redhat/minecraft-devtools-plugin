@@ -22,10 +22,10 @@ jira:
 
 # vLLM/MaaS Configuration
 vllm:
-  # MaaS/vLLM service URL (internal OpenShift service or external URL)
-  url: "http://maas.apps.ocp.cloud.rhai-tmm.dev/kimi-k25/kimi-k2-5/v1"
+  # MaaS/vLLM service URL (without /v1 suffix - client adds it automatically)
+  url: "http://maas.apps.ocp.cloud.rhai-tmm.dev/prelude-maas/kimi-k2-6"
   # Model name (use environment variable MAAS_MODEL or specify directly)
-  model: "kimi-k2.5"
+  model: "kimi-k2-6"
   # API token for authentication (use environment variable MAAS_TOKEN or specify directly)
   api-token: "${MAAS_TOKEN}"
   # Maximum tokens for completion

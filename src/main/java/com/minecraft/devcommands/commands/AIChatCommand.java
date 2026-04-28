@@ -187,7 +187,7 @@ public class AIChatCommand implements CommandExecutor, TabCompleter {
                     int maxPages = plugin.getConfig().getInt("settings.max-book-pages", 50);
                     ItemStack book = BookGenerator.createBook(
                         bookTitle,
-                        "Kimi k2.5",
+                        "Kimi k2.6",
                         bookContent,
                         maxPages
                     );
@@ -218,7 +218,7 @@ public class AIChatCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(Component.text(""));
 
         player.sendMessage(Component.text("• ", NamedTextColor.YELLOW)
-            .append(Component.text("Kimi k2-5", NamedTextColor.WHITE, TextDecoration.BOLD))
+            .append(Component.text("Kimi k2.6", NamedTextColor.WHITE, TextDecoration.BOLD))
             .append(Component.text(" (Current)", NamedTextColor.GREEN)));
 
         player.sendMessage(Component.text("  └ ", NamedTextColor.DARK_GRAY)
@@ -229,7 +229,7 @@ public class AIChatCommand implements CommandExecutor, TabCompleter {
 
         player.sendMessage(Component.text("  └ ", NamedTextColor.DARK_GRAY)
             .append(Component.text("Model: ", NamedTextColor.GRAY))
-            .append(Component.text("kimi-k2-5", NamedTextColor.AQUA)));
+            .append(Component.text("kimi-k2-6", NamedTextColor.AQUA)));
     }
 
     private void showTools(Player player) {
@@ -365,6 +365,6 @@ public class AIChatCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(Component.text("  • ", NamedTextColor.DARK_GRAY)
             .append(Component.text("Short replies in chat, long ones as books", NamedTextColor.GRAY)));
         player.sendMessage(Component.text("  • ", NamedTextColor.DARK_GRAY)
-            .append(Component.text("Powered by Kimi k2.5 (256K context)", NamedTextColor.GRAY)));
+            .append(Component.text("Powered by Kimi k2.6 (256K context)", NamedTextColor.GRAY)));
     }
 }
