@@ -12,13 +12,13 @@ github:
 # Jira Configuration
 jira:
   # Jira instance URL (e.g., https://yourcompany.atlassian.net)
-  url: "${JIRA_URL}"
+  url: "https://devoxxuk-test.atlassian.net"
   # Jira email address
   email: "${JIRA_EMAIL}"
   # Jira API token (generate at https://id.atlassian.com/manage-profile/security/api-tokens)
   api-token: "${JIRA_API_TOKEN}"
   # Default project key (e.g., "PROJ")
-  project-key: "PROJ"
+  project-key: "SCRUM"
 
 # vLLM/MaaS Configuration
 vllm:

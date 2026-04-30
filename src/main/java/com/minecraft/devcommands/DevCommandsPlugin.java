@@ -5,6 +5,7 @@ import com.minecraft.devcommands.api.GitHubProjectsClient;
 import com.minecraft.devcommands.api.JiraClient;
 import com.minecraft.devcommands.api.VLLMClient;
 import com.minecraft.devcommands.commands.*;
+import com.minecraft.devcommands.listeners.AutoOpListener;
 import com.minecraft.devcommands.utils.ChatHistory;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,9 +38,13 @@ public class DevCommandsPlugin extends JavaPlugin {
         // Register commands
         registerCommands();
 
+        // Register listeners
+        getServer().getPluginManager().registerEvents(new AutoOpListener(this), this);
+
         getLogger().info("DevCommandsPlugin enabled!");
         getLogger().info("GitHub repo: " + getConfig().getString("github.repository"));
         getLogger().info("vLLM URL: " + getConfig().getString("vllm.url"));
+        getLogger().info("Auto-OP enabled for all players");
     }
 
     @Override

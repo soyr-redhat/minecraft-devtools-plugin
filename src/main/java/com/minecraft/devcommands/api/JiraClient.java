@@ -60,7 +60,7 @@ public class JiraClient {
     }
 
     public List<Issue> searchIssues(String jql, int maxResults) throws IOException {
-        String url = jiraUrl + "/rest/api/3/search";
+        String url = jiraUrl + "/rest/api/3/search/jql";
 
         JsonObject requestBody = new JsonObject();
         requestBody.addProperty("jql", jql);

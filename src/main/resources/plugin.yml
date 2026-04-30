@@ -31,7 +31,7 @@ commands:
     permission: devcommands.explain
   jira-create:
     description: Create a new Jira issue
-    usage: /jira-create <type> <summary> [| description]
+    usage: /jira-create <Bug|Task|Story|Epic> <summary> [| description]
     permission: devcommands.jira
   jira-view:
     description: View a Jira issue

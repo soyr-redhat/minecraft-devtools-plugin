@@ -109,6 +109,12 @@ public class AIChatCommand implements CommandExecutor, TabCompleter {
                 // Call AI with tools
                 VLLMClient.ChatResponse response = vllm.chatWithTools(message, tools);
 
+                // Debug logging
+                plugin.getLogger().info("AI Response - Has tool calls: " + response.hasToolCalls());
+                if (response.toolCalls != null) {
+                    plugin.getLogger().info("Tool calls: " + response.toolCalls.toString());
+                }
+
                 String finalResponse;
 
                 // Check if AI wants to use tools
